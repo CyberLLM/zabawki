@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Sklep z zabawkami</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  .product {
+    margin-bottom: 20px;
+  }
+
+  .product label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .quantity-display {
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+    margin: 0 10px;
+    background-color: #FEE0E2;
+  }
+
+  .price-display {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    margin-left: 10px;
+  }
+
+  .total, .final-total {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  #courier {
+    display: block;
+    margin: 20px auto; /* Zwiększa przestrzeń */
+  }
+
+  #submit-button {
+    background-color: #CAE86E;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    margin: 20px auto;
+  }
+
+  #confirmation {
+    display: none;
+    color: green;
+    text-align: center;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Twoje zamówienie</h1>
+
+  <form id="order-form">
+
+    <div class="product">
+      <label for="lemur">Lemur: 6,50 zł</label>
+      <span class="quantity-display" id="lemur-quantity">0</span>
+      <input type="range" id="lemur" name="lemur" min="0" max="10" value="0" oninput="updateAmounts()">
+      <span class="price-display" id="lemur-price">0 zł</span>
+    </div>
+
+    <div class="product">
+      <label for="alpaka">Alpaka: 8,20 zł</label>
+      <span class="quantity-display" id="alpaka-quantity">0</span>
+      <input type="range" id="alpaka" name="alpaka" min="0" max="10" value="0" oninput="updateAmounts()">
+      <span class="price-display" id="alpaka-price">0 zł</span>
+    </div>
+
+    <div class="product">
+      <label for="ostrich">Struś: 7,50 zł</label>
+      <span class="quantity-display" id="ostrich-quantity">0</span>
+      <input type="range" id="ostrich" name="ostrich" min="0" max="10" value="0" oninput="updateAmounts()">
+      <span class="price-display" id="ostrich-price">0 zł</span>
+    </div>
+
+    <div class="total">Razem: <span id="total-amount">0 zł</span></div>
+
+    <select id="courier" name="courier" onchange="updateAmounts()">
+      <option value="15">Kurier - 15 zł</option>
+      <option value="12">Paczkomat - 12 zł</option>
+    </select>
+
+    <div class="final-total">Do zapłaty: <span id="final-amount">0 zł</span></div>
+
+    <input type="button" id="submit-button" value="Zamów" onclick="confirmOrder()">
+
+  </form>
+
+  <div id="confirmation">
+    Twoje zamówienie zostało przyjęte. Dziękujemy za zakupy w naszym sklepie!
+  </div>
+</div>
+
+<script>
+  function updateAmounts() {
+    var lemurQuantity = parseInt(document.getElementById('lemur').value);
+    var alpakaQuantity = parseInt(document.getElementById('alpaka').value);
+    var ostrichQuantity = parseInt(document.getElementById('ostrich').value);
+
+    var lemurPrice = 6.50 * lemurQuantity;
+    var alpakaPrice = 8.20 * alpakaQuantity;
+    var ostrichPrice = 7.50 * ostrichQuantity;
+
+    document.getElementById('lemur-quantity').textContent = lemurQuantity;
+    document.getElementById('alpaka-quantity').textContent = alpakaQuantity;
+    document.getElementById('ostrich-quantity').textContent = ostrichQuantity;
+
+    document.getElementById('lemur-price').textContent = lemurPrice.toFixed(2) + ' zł';
+    document.getElementById('alpaka-price').textContent = alpakaPrice.toFixed(2) + ' zł';
+    document.getElementById('ostrich-price').textContent = ostrichPrice.toFixed(2) + ' zł';
+
+    var totalAmount = lemurPrice + alpakaPrice + ostrichPrice;
+    document.getElementById('total-amount').textContent = totalAmount.toFixed(2) + ' zł';
+
+    var courierFee = parseFloat(document.getElementById('courier').value);
+    var finalAmount = totalAmount + courierFee;
+    document.getElementById('final-amount').textContent = finalAmount.toFixed(2) + ' zł';
+  }
+
+  function confirmOrder() {
+    document.getElementById('confirmation').style.display = 'block';
+  }
+</script>
+</body>
+</html>
